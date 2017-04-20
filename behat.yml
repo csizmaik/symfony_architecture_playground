@@ -1,0 +1,8 @@
+default:
+    autoload: %paths.base%/features
+    extensions:
+        Behat\Symfony2Extension: ~
+    suites:
+        default:
+            contexts:
+                - behat_context\UserContext

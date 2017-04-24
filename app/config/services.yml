@@ -4,6 +4,23 @@ parameters:
     #parameter_name: value
 
 services:
+    time_service:
+      class:    services\external\time\SystemTimeService
+    transaction_service:
+      class:    services\external\store\doctrine\TransactionServiceDoctrine
+      arguments:  ["@doctrine.orm.entity_manager"]
+    user_repository:
+      class:    services\external\store\doctrine\UserRepositoryDoctrine
+      factory: ['@doctrine.orm.default_entity_manager', getRepository]
+      arguments:
+        - services\internal\user\User
+    user_service:
+      class:    services\internal\user\UserService
+      arguments: ['@user_repository','@transaction_service','@time_service']
+    auth_service:
+      class:    services\internal\auth\AuthService
+      arguments:  ['@user_service','@transaction_service']
+
     #service_name:
     #    class: AppBundle\Directory\ClassName
     #    arguments: ['@another_service_name', 'plain_value', '%parameter_name%']

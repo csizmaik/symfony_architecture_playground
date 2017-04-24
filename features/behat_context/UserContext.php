@@ -10,31 +10,147 @@ namespace behat_context;
 
 use Behat\Behat\Context\Context;
 use Behat\Behat\Tester\Exception\PendingException;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Tools\SchemaTool;
+use services\internal\auth\AuthenticationFailedException;
+use services\internal\auth\AuthService;
+use services\internal\user\UserRepository;
+use services\internal\user\UserService;
 
 class UserContext implements Context
 {
+	/**
+	 * @var UserService
+	 */
+	private $userService;
+	/**
+	 * @var UserRepository
+	 */
+	private $userRepository;
+
+	private $authService;
+
+	private $entityManager;
+
+	private $registrationResult;
+	private $successLogin;
 
 	/**
-	 * @Given /^no user with loginname "([^"]*)" exists$/
+	 * UserContext constructor.
 	 */
-	public function noUserWithLoginnameExists($loginName)
+	public function __construct(EntityManager $entityManager, UserRepository $userRepository, UserService $userService, AuthService $authService)
 	{
-		throw new PendingException();
+		$this->entityManager = $entityManager;
+		$this->userRepository = $userRepository;
+		$this->userService = $userService;
+		$this->authService = $authService;
 	}
 
 	/**
-	 * @When /^the user tries to register with name "([^"]*)" "([^"]*)", email "([^"]*)" and password "([^"]*)"$/
+	 * @BeforeScenario
 	 */
-	public function theUserTriesToRegisterWithNameEmailAndPassword($surname, $forename, $email, $password)
+	public function initDataBase()
 	{
-		throw new PendingException();
+		$this->entityManager->clear();
+		$schemaTool = new SchemaTool($this->entityManager);
+		$classes = $this->entityManager->getMetadataFactory()->getAllMetadata();
+		$schemaTool->dropSchema($classes);
+		$schemaTool->createSchema($classes);
 	}
 
 	/**
-	 * @Then /^the user with login name "([^"]*)" created$/
+	 * @Given /^a user base where "([^"]*)" loginname hasn't registered yet$/
 	 */
-	public function theUserWithLoginNameCreated($login)
+	public function aUserBaseWhereLoginnameHasnTRegisteredYet($loginName)
 	{
-		throw new PendingException();
+		if ($this->userRepository->isUserExistsWithLogin($loginName))
+		{
+			$this->userRepository->removeUserByLoginName($loginName);
+		}
 	}
+
+	/**
+	 * @When /^the user "([^"]*)" tries to register with "([^"]*)" loginname and "([^"]*)" password$/
+	 */
+	public function theUserTriesToRegisterWithLoginnameAndPassword($name, $login, $password)
+	{
+		try {
+			$this->registrationResult = $this->userService->registerUser($name, $login, $password);
+		} catch (\Exception $exception) {
+			$this->registrationResult = $exception;
+		}
+	}
+
+	/**
+	 * @Then /^the registration is "([^"]*)"$/
+	 */
+	public function theRegistrationIs($expectedRegistrationResult)
+	{
+		switch ($expectedRegistrationResult) {
+			case 'success':
+				\PHPUnit\Framework\Assert::assertGreaterThan(0, $this->registrationResult);
+				break;
+			case 'failed':
+				\PHPUnit\Framework\Assert::assertInstanceOf("Exception", $this->registrationResult);
+				break;
+		}
+	}
+
+	/**
+	 * @Given /^a registered user with "([^"]*)" loginname and "([^"]*)" password$/
+	 */
+	public function aRegisteredUserWithLoginnameAndPassword($login, $password)
+	{
+		if (!$this->userRepository->isUserExistsWithLogin($login))
+		{
+			$this->userService->registerUser("Existing User",$login,$password);
+		}
+	}
+
+	/**
+	 * @When /^"([^"]*)" user tries to login with "([^"]*)" password$/
+	 */
+	public function userTriesToLoginWithPassword($login, $password)
+	{
+		try {
+			$this->authService->login($login, $password);
+			$this->successLogin = true;
+		} catch (AuthenticationFailedException $exception) {
+			$this->successLogin = false;
+		}
+	}
+
+	/**
+	 * @Then /^the login is "([^"]*)"$/
+	 */
+	public function theLoginIs($expectedResult)
+	{
+		switch ($expectedResult) {
+			case 'success':
+				\PHPUnit\Framework\Assert::assertTrue($this->successLogin);
+				break;
+			case 'failed':
+				\PHPUnit\Framework\Assert::assertFalse($this->successLogin);
+				break;
+		}
+	}
+
+	/**
+	 * @Given /^"([^"]*)" user is deactivated$/
+	 */
+	public function userIsDeactivated($loginName)
+	{
+		$this->userService->deactivateUserByLogin($loginName);
+	}
+
+	/**
+	 * @Given /^reset unsuccess login counter for "([^"]*)" user$/
+	 */
+	public function resetUnsuccessLoginCounterForUser($login)
+	{
+		/** @var \services\internal\user\User $user */
+		$user = $this->userRepository->getUserByLoginName($login);
+		$this->userService->resetUnsuccessLoginCounterByUserId($user->getId());
+	}
+
 }

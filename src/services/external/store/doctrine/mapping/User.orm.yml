@@ -1,0 +1,25 @@
+services\internal\user\User:
+  type: entity
+  table: users
+  repositoryClass: services\external\store\doctrine\UserRepositoryDoctrine
+  id:
+     id:
+       type: integer
+       generator: { strategy: AUTO }
+  fields:
+    userId:
+      type: string
+    name:
+      type: string
+      length: 100
+    login:
+      type: string
+    password:
+      type: string
+    active:
+      type: string
+    unsuccessLoginCount:
+      type: string
+    lastSuccessLogin:
+      type: datetime
+      nullable: true

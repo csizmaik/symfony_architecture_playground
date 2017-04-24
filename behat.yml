@@ -5,4 +5,8 @@ default:
     suites:
         default:
             contexts:
-                - behat_context\UserContext
+                - behat_context\UserContext:
+                    entityManager: '@doctrine.orm.entity_manager'
+                    userRepository: '@user_repository'
+                    userService: '@user_service'
+                    authService: '@auth_service'

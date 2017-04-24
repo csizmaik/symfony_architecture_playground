@@ -4,12 +4,21 @@ Feature: User registration
   I want to register a new account
 
   Rules:
-  - Name is required for the registration
-  - Loginname must be a valid email address
+  - Loginname must be minimum 3 characters long
   - Password can't be empty
   - If a loginname is reserved it can't be registered again
 
   Scenario: Success registration
-    Given no user with loginname "csizmarik.norbert@gmail.com" exists
-    When the user tries to register with name "Csizmarik" "Norbert", email "csizmarik.norbert@gmail.com" and password "secret"
-    Then the user with login name "csizmarik.norbert@gmail.com" created
+    Given a user base where "norbi" loginname hasn't registered yet
+    When the user "Csizmarik Norbert" tries to register with "norbi" loginname and "secret" password
+    Then the registration is "success"
+
+  Scenario: Unsuccess registration - reserved login name
+    Given a registered user with "norbi" loginname and "secret" password
+    When the user "Csizmarik Norbert" tries to register with "norbi" loginname and "secret" password
+    Then the registration is "failed"
+
+  Scenario: Unsuccess registration - too short loginname
+    Given a user base where "norbi" loginname hasn't registered yet
+    When the user "Csizmarik Norbert" tries to register with "no" loginname and "secret" password
+    Then the registration is "failed"

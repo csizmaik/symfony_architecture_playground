@@ -8,7 +8,7 @@
 
 namespace services\internal\auth;
 
-use services\external\storage\Transaction;
+use services\external\store\TransactionService;
 use services\internal\user\UserService;
 
 
@@ -19,11 +19,11 @@ class AuthService
 	 */
 	private $userService;
 	/**
-	 * @var Transaction
+	 * @var TransactionService
 	 */
 	private $transactionService;
 
-	public function __construct(UserService $userService, Transaction $transactionService)
+	public function __construct(UserService $userService, TransactionService $transactionService)
 	{
 		$this->userService = $userService;
 		$this->transactionService = $transactionService;

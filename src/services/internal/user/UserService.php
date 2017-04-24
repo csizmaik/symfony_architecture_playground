@@ -8,14 +8,14 @@
 
 namespace services\internal\user;
 
-use services\external\storage\Transaction;
+use services\external\store\TransactionService;
 use services\external\time\TimeService;
 
 class UserService
 {
 	private $userRepository;
 	/**
-	 * @var Transaction
+	 * @var TransactionService
 	 */
 	private $transactionService;
 	/**
@@ -23,7 +23,7 @@ class UserService
 	 */
 	private $timeService;
 
-	public function __construct(UserRepository $userRepository, Transaction $transactionService, TimeService $timeService)
+	public function __construct(UserRepository $userRepository, TransactionService $transactionService, TimeService $timeService)
 	{
 		$this->userRepository = $userRepository;
 		$this->transactionService = $transactionService;

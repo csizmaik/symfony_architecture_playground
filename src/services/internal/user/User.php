@@ -22,11 +22,6 @@ class User
 	private $unsuccessLoginCount = 0;
 	private $lastSuccessLogin = null;
 
-	public static function createWithData($userId, $name, $login, $password)
-	{
-		return new static($userId, $name, $login, $password);
-	}
-
 	/**
 	 * User constructor.
 	 * @param $userId

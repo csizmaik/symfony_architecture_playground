@@ -21,13 +21,13 @@ class UserTest extends TestCase
 	public function testUserWithTooShortLoginName()
 	{
 		$this->expectException(\InvalidArgumentException::class);
-		User::createWithData(1,"Csizmarik Norbert",self::TOO_SHORT_LOGIN,self::GOOD_PASS);
+		$user = new User(1,"Csizmarik Norbert",self::TOO_SHORT_LOGIN,self::GOOD_PASS);
 	}
 
 	public function testUserWithEmptyPasswordName()
 	{
 		$this->expectException(\InvalidArgumentException::class);
-		User::createWithData(1,"Csizmarik Norbert","norbi",self::EMPTY_PASS);
+		$user = new User(1,"Csizmarik Norbert","norbi",self::EMPTY_PASS);
 	}
 
 	public function testValidCredentialValidation()
@@ -84,7 +84,7 @@ class UserTest extends TestCase
 
 	private function getAUser()
 	{
-		return User::createWithData(1,"Csizmarik Norbert","norbi",self::GOOD_PASS);
+		return new User(1,"Csizmarik Norbert","norbi",self::GOOD_PASS);
 	}
 
 	private function doAnUnsuccessLoginWithotException(User $user)

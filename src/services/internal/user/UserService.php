@@ -35,7 +35,7 @@ class UserService
 		return $this->transactionService->transactional(function() use ($name, $login, $password){
 			ReservedLoginChecker::check($this->userRepository->isUserExistsWithLogin($login));
 			$userId = $this->userRepository->nextId();
-			$user = User::createWithData($userId, $name, $login, $password);
+			$user = new User($userId, $name, $login, $password);
 			$this->userRepository->addUser($user);
 			return $userId;
 		});

@@ -8,7 +8,7 @@
 
 namespace services\internal\user;
 
-use lib\validation\ValidationResult;
+use lib\validation\ValidationResultContainer;
 
 class User
 {
@@ -39,7 +39,7 @@ class User
 
 	public function validateCredential($password)
 	{
-		$validationResult = new ValidationResult();
+		$validationResult = new ValidationResultContainer();
 		if ($this->isMaxUnsuccessLoginReached())
 		{
 			$validationResult->addFailure("Maximum unsuccess login reached!");

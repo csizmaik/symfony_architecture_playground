@@ -14,13 +14,13 @@ class ValidationResultTest extends TestCase
 {
 	public function testInitiallySuccessResult()
 	{
-		$validationResult = new ValidationResult();
+		$validationResult = new ValidationResultContainer();
 		$this->assertTrue($validationResult->isSuccess());
 	}
 
 	public function testFailedResult()
 	{
-		$validationResult = new ValidationResult();
+		$validationResult = new ValidationResultContainer();
 		$validationResult->addFailure("Failure message!");
 		$this->assertFalse($validationResult->isSuccess());
 	}

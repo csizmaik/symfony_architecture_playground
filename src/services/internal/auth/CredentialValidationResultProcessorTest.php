@@ -8,21 +8,21 @@
 
 namespace services\internal\auth;
 
-use lib\validation\ValidationResult;
+use lib\validation\ValidationResultContainer;
 use PHPUnit\Framework\TestCase;
 
 class CredentialValidationResultProcessorTest extends TestCase
 {
 	public function testValidResult()
 	{
-		$validationResult = new ValidationResult();
+		$validationResult = new ValidationResultContainer();
 		$result = CredentialValidationResultProcessor::process($validationResult);
 		$this->assertTrue($result);
 	}
 
 	public function testFailedResult()
 	{
-		$validationResult = new ValidationResult();
+		$validationResult = new ValidationResultContainer();
 		$validationResult->addFailure("Some failure message");
 		$this->expectException(AuthenticationFailedException::class);
 		CredentialValidationResultProcessor::process($validationResult);

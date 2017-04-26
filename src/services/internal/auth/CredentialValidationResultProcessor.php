@@ -9,11 +9,11 @@
 namespace services\internal\auth;
 
 
-use lib\validation\ValidationResult;
+use lib\validation\ValidationResultContainer;
 
 class CredentialValidationResultProcessor
 {
-	public static function process(ValidationResult $result)
+	public static function process(ValidationResultContainer $result)
 	{
 		if (!$result->isSuccess())
 		{

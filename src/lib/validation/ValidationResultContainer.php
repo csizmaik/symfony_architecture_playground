@@ -9,7 +9,7 @@
 namespace lib\validation;
 
 
-class ValidationResult
+class ValidationResultContainer
 {
 	private $successValidation;
 	private $failReasons;

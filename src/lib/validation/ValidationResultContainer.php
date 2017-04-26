@@ -11,23 +11,23 @@ namespace lib\validation;
 
 class ValidationResultContainer
 {
-	private $successValidation;
+	private $isValid;
 	private $failReasons;
 
 	public function __construct()
 	{
-		$this->successValidation = true;
+		$this->isValid = true;
 		$this->failReasons = array();
 	}
 
 	public function isSuccess()
 	{
-		return $this->successValidation;
+		return $this->isValid;
 	}
 
 	public function addFailure($failMessage)
 	{
-		$this->successValidation = false;
+		$this->isValid = false;
 		$this->failReasons[] = $failMessage;
 	}
 

@@ -24,4 +24,25 @@ class ValidationResultTest extends TestCase
 		$validationResult->addFailure("Failure message!");
 		$this->assertFalse($validationResult->isSuccess());
 	}
+
+	/**
+	 * @test
+	 */
+	public function failedResultShouldThrowException()
+	{
+		$this->expectException(ValidationFailedException::class);
+		$validationResult = new ValidationResultContainer();
+		$validationResult->addFailure("Failure message!");
+		$validationResult->validate("Validation exception message");
+	}
+
+	/**
+	 * @test
+	 */
+	public function successResultShouldNotThrowException()
+	{
+		$validationResult = new ValidationResultContainer();
+		$validationResult->validate("Validation exception message");
+		$this->assertTrue(true);
+	}
 }

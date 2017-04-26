@@ -2,20 +2,18 @@
 /**
  * Created by PhpStorm.
  * User: csizmarik
- * Date: 4/6/2017
- * Time: 6:08 PM
+ * Date: 4/26/2017
+ * Time: 4:14 PM
  */
 
-namespace services\internal\auth;
+namespace lib\validation;
 
 
-use Exception;
-
-class AuthenticationFailedException extends \Exception
+class ValidationFailedException extends \Exception
 {
 	private $failReasons;
 
-	public function __construct($message = "", $code = 0, Exception $previous = null)
+	public function __construct($message = "", $code = 0, \Exception $previous = null)
 	{
 		parent::__construct($message, $code, $previous);
 	}
@@ -29,6 +27,4 @@ class AuthenticationFailedException extends \Exception
 	{
 		return $this->failReasons;
 	}
-
-
 }

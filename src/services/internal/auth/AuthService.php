@@ -32,6 +32,6 @@ class AuthService
 	public function login($login, $password)
 	{
 		$credentialValidationResult = $this->userService->validateCredential($login, $password);
-		return CredentialValidationResultProcessor::process($credentialValidationResult);
+		return $credentialValidationResult->validate("Autentication failed, bad credential!");
 	}
 }

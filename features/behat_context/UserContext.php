@@ -9,10 +9,9 @@
 namespace behat_context;
 
 use Behat\Behat\Context\Context;
-use Behat\Behat\Tester\Exception\PendingException;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\SchemaTool;
-use services\internal\auth\AuthenticationFailedException;
+use lib\validation\ValidationFailedException;
 use services\internal\auth\AuthService;
 use services\internal\user\UserRepository;
 use services\internal\user\UserService;
@@ -115,7 +114,7 @@ class UserContext implements Context
 		try {
 			$this->authService->login($login, $password);
 			$this->successLogin = true;
-		} catch (AuthenticationFailedException $exception) {
+		} catch (ValidationFailedException $exception) {
 			$this->successLogin = false;
 		}
 	}

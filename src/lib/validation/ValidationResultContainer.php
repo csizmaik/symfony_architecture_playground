@@ -35,4 +35,15 @@ class ValidationResultContainer
 	{
 		return $this->failReasons;
 	}
+
+	public function validate($exceptionMessage)
+	{
+		if (!$this->isSuccess())
+		{
+			$exception = new ValidationFailedException($exceptionMessage);
+			$exception->setFailReasons($this->getFailureReasons());
+			throw $exception;
+		}
+		return true;
+	}
 }

@@ -15,13 +15,19 @@ class ReservedLoginCheckerTest extends TestCase
 	const LOGIN_NAME_FREE = false;
 	const LOGIN_NAME_RESERVED = true;
 
-	public function testFreeLoginName()
+	/**
+	 * @test
+	 */
+	public function freeLoginNameShouldNotThrowException()
 	{
 		$result = ReservedLoginChecker::check(self::LOGIN_NAME_FREE);
 		$this->assertTrue($result);
 	}
 
-	public function testReservedLoginName()
+	/**
+	 * @test
+	 */
+	public function reservedLoginNameShouldThrowException()
 	{
 		$this->expectException(\InvalidArgumentException::class);
 		ReservedLoginChecker::check(self::LOGIN_NAME_RESERVED);

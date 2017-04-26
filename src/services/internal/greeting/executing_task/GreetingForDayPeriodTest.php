@@ -23,19 +23,28 @@ class GreetingForDayPeriodTest extends TestCase
         $this->greetingForDayPeriod = new GreetingForDayPeriod();
     }
 
-    public function testGreetinInTheMorning() {
+	/**
+	 * @test
+	 */
+    public function shouldSayMorningGreeting() {
         $greeting = $this->greetingForDayPeriod
                                 ->greetinForDayPeriod(DayPeriod::MORNING);
         $this->assertEquals("Good Morning!",$greeting);
     }
 
-    public function testGreetingDuringDay() {
+	/**
+	 * @test
+	 */
+    public function shouldSayDuringDayGreeting() {
         $greeting = $this->greetingForDayPeriod
                                 ->greetinForDayPeriod(DayPeriod::DAY);
         $this->assertEquals("Hello!",$greeting);
     }
 
-    public function testGreetingInTheEvening() {
+	/**
+	 * @test
+	 */
+    public function shouldSayEveningGreeting() {
         $greeting = $this->greetingForDayPeriod
             ->greetinForDayPeriod(DayPeriod::EVENING);
         $this->assertEquals("Good Evening!",$greeting);

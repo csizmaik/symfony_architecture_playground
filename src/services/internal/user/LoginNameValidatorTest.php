@@ -15,13 +15,19 @@ class LoginNameValidatorTest extends TestCase
 	const VALID_LOGINNAME = 'norbi';
 	const TOO_SHORT_LOGINNAME = 'aa';
 
-	public function testValidLoginName()
+	/**
+	 * @test
+	 */
+	public function validLoginNameShouldNotThrowException()
 	{
 		LoginNameValidator::validate(self::VALID_LOGINNAME);
 		$this->assertTrue(true);
 	}
 
-	public function testTooShortLoginName()
+	/**
+	 * @test
+	 */
+	public function testTooShortLoginNameShouldThrowException()
 	{
 		$this->expectException(\InvalidArgumentException::class);
 		LoginNameValidator::validate(self::TOO_SHORT_LOGINNAME);

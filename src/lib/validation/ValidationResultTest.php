@@ -12,13 +12,19 @@ use PHPUnit\Framework\TestCase;
 
 class ValidationResultTest extends TestCase
 {
-	public function testInitiallySuccessResult()
+	/**
+	 * @test
+	 */
+	public function shouldInitiallySuccess()
 	{
 		$validationResult = new ValidationResultContainer();
 		$this->assertTrue($validationResult->isSuccess());
 	}
 
-	public function testFailedResult()
+	/**
+	 * @test
+	 */
+	public function shouldFail()
 	{
 		$validationResult = new ValidationResultContainer();
 		$validationResult->addFailure("Failure message!");

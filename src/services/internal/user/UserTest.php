@@ -18,33 +18,48 @@ class UserTest extends TestCase
 	const WRONG_PASS = "wrongpass";
 	const EMPTY_PASS = "";
 
-	public function testUserWithTooShortLoginName()
+	/**
+	 * @test
+	 */
+	public function userWithTooShortLoginNameShouldThrowException()
 	{
 		$this->expectException(\InvalidArgumentException::class);
 		$user = new User(1,"Csizmarik Norbert",self::TOO_SHORT_LOGIN,self::GOOD_PASS);
 	}
 
-	public function testUserWithEmptyPasswordName()
+	/**
+	 * @test
+	 */
+	public function userWithEmptyPasswordShouldThrowException()
 	{
 		$this->expectException(\InvalidArgumentException::class);
 		$user = new User(1,"Csizmarik Norbert","norbi",self::EMPTY_PASS);
 	}
 
-	public function testValidCredentialValidation()
+	/**
+	 * @test
+	 */
+	public function shouldBeValidCredential()
 	{
 		$user = $this->getAUser();
 		$credentialValidationResult = $user->validateCredential(self::GOOD_PASS);
 		$this->assertTrue($credentialValidationResult->isSuccess());
 	}
 
-	public function testFailedCredentialValidationWithWrongPassword()
+	/**
+	 * @test
+	 */
+	public function shouldBeFailedCredentialValidationWithWrongPassword()
 	{
 		$user = $this->getAUser();
 		$credentialValidationResult = $user->validateCredential(self::WRONG_PASS);
 		$this->assertFalse($credentialValidationResult->isSuccess());
 	}
 
-	public function testFailedCredentialValidationForInactiveUser()
+	/**
+	 * @test
+	 */
+	public function shouldBeFailedCredentialValidationForInactiveUser()
 	{
 		$user = $this->getAUser();
 		$user->deactivate();
@@ -52,7 +67,10 @@ class UserTest extends TestCase
 		$this->assertFalse($credentialValidationResult->isSuccess());
 	}
 
-	public function testFailedCredentialValidationAfterTooMuchUnsuccess()
+	/**
+	 * @test
+	 */
+	public function shouldBeFailedCredentialValidationAfterTooMuchUnsuccess()
 	{
 		$user = $this->getAUser();
 		$this->doAnUnsuccessLoginWithotException($user);
@@ -62,7 +80,10 @@ class UserTest extends TestCase
 		$this->assertFalse($credentialValidationResult->isSuccess());
 	}
 
-	public function testUserActivation()
+	/**
+	 * @test
+	 */
+	public function shouldActivateUser()
 	{
 		$user = $this->getAUser();
 		$user->deactivate();
@@ -71,7 +92,10 @@ class UserTest extends TestCase
 		$this->assertTrue($credentialValidationResult->isSuccess());
 	}
 
-	public function resetUnsuccessLoginCounter()
+	/**
+	 * @test
+	 */
+	public function shouldResetUnsuccessLoginCounter()
 	{
 		$user = $this->getAUser();
 		$this->doAnUnsuccessLoginWithotException($user);

@@ -15,13 +15,19 @@ class PasswordValidatorTest extends TestCase
 	const VALID_PASSWORD = 'secret';
 	const EMPTY_PASSWORD = '';
 
-	public function testValidPassword()
+	/**
+	 * @test
+	 */
+	public function validPasswordShouldNotThrowException()
 	{
 		PasswordValidator::validate(self::VALID_PASSWORD);
 		$this->assertTrue(true);
 	}
 
-	public function testEmptyPassword()
+	/**
+	 * @test
+	 */
+	public function emptyPasswordShouldThrowException()
 	{
 		$this->expectException(\InvalidArgumentException::class);
 		PasswordValidator::validate(self::EMPTY_PASSWORD);

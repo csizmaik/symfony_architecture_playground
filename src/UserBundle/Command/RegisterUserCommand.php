@@ -10,6 +10,7 @@ namespace UserBundle\Command;
 
 
 use Symfony\Component\Validator\Constraints as Assert;
+use UserBundle\Validator as MyAssert;
 
 class RegisterUserCommand
 {
@@ -26,11 +27,12 @@ class RegisterUserCommand
 	/**
 	 * @Assert\NotBlank()
 	 * @Assert\Length(min="3")
+	 * @MyAssert\SecurePassword()
 	 */
 	private $password;
 	/**
 	 * @Assert\NotBlank()
-	 * @Assert\Length(min="3")
+	 * @Assert\Length(min="2")
 	 */
 	private $passwordAgain;
 

@@ -10,15 +10,20 @@ Feature: User registration
 
   Scenario: Success registration
     Given a user base where "norbi" loginname hasn't registered yet
-    When the user "Csizmarik Norbert" tries to register with "norbi" loginname and "secret" password
+    When the user "Csizmarik Norbert" tries to register with "norbi" loginname and "secret1" password
     Then the registration is "success"
 
   Scenario: Unsuccess registration - reserved login name
-    Given a registered user with "norbi" loginname and "secret" password
-    When the user "Csizmarik Norbert" tries to register with "norbi" loginname and "secret" password
+    Given a registered user with "norbi" loginname and "secret1" password
+    When the user "Csizmarik Norbert" tries to register with "norbi" loginname and "secret1" password
     Then the registration is "failed"
 
   Scenario: Unsuccess registration - too short loginname
     Given a user base where "norbi" loginname hasn't registered yet
-    When the user "Csizmarik Norbert" tries to register with "no" loginname and "secret" password
+    When the user "Csizmarik Norbert" tries to register with "no" loginname and "secret1" password
+    Then the registration is "failed"
+
+  Scenario: Unsuccess registration - empty password
+    Given a user base where "norbi" loginname hasn't registered yet
+    When the user "Csizmarik Norbert" tries to register with "norbi" loginname and "" password
     Then the registration is "failed"

@@ -9,12 +9,13 @@
 namespace services\internal\user;
 
 
+use lib\validation\ValidationFailedException;
 use PHPUnit\Framework\TestCase;
 
 class UserTest extends TestCase
 {
 	const TOO_SHORT_LOGIN = "a";
-	const GOOD_PASS = "secret";
+	const GOOD_PASS = "secret1";
 	const WRONG_PASS = "wrongpass";
 	const EMPTY_PASS = "";
 
@@ -32,7 +33,7 @@ class UserTest extends TestCase
 	 */
 	public function userWithEmptyPasswordShouldThrowException()
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(ValidationFailedException::class);
 		$user = new User(1,"Csizmarik Norbert","norbi",self::EMPTY_PASS);
 	}
 

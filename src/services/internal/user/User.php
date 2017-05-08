@@ -8,6 +8,7 @@
 
 namespace services\internal\user;
 
+use lib\validation\PasswordStrengthValidator;
 use lib\validation\ValidationResultContainer;
 
 class User
@@ -131,7 +132,9 @@ class User
 
 	private function setPassword($password)
 	{
-		PasswordValidator::validate($password);
+		$validator = new PasswordStrengthValidator($password);
+		$validationResult = $validator->getValidationResult();
+		$validationResult->validate("Wrong password!");
 		$this->password = $password;
 	}
 

@@ -8,6 +8,13 @@ framework:
     profiler:
         collect: false
 
+doctrine:
+    dbal:
+        driver: pdo_sqlite
+        path:   :memory:
+        memory: true
+        charset: UTF-8
+
 web_profiler:
     toolbar: false
     intercept_redirects: false

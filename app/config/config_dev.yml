@@ -9,10 +9,11 @@ framework:
 
 doctrine:
     dbal:
-        driver: pdo_sqlite
-        path:   :memory:
-        memory: true
-        charset: UTF-8
+        default_connection: default
+        connections:
+            default:
+                driver:   pdo_sqlite
+                path:     %kernel.cache_dir%/test.db
 
 web_profiler:
     toolbar: true

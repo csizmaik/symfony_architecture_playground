@@ -7,6 +7,7 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use UserBundle\Command\RegisterUserCommand;
 
 class RegisterUserForm extends AbstractType
 {
@@ -16,13 +17,15 @@ class RegisterUserForm extends AbstractType
 			->add('name')
 			->add('loginName')
 			->add('password', PasswordType::class)
+			->add('passwordAgain', PasswordType::class)
 			->add('save', SubmitType::class, array('label' => 'Create User'));
 	}
 
     public function configureOptions(OptionsResolver $resolver)
     {
 		$resolver->setDefaults([
-			'csrf_protection' => false
+			'csrf_protection' => false,
+			'data_class' => RegisterUserCommand::class
 		]);
 	}
 

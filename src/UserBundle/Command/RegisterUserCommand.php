@@ -9,11 +9,38 @@
 namespace UserBundle\Command;
 
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 class RegisterUserCommand
 {
+	/**
+	 * @Assert\Type(type="string")
+	 * @Assert\Length(min="3")
+	 */
 	private $name;
+	/**
+	 * @Assert\Type(type="string")
+	 * @Assert\Length(min="3")
+	 */
 	private $loginName;
+	/**
+	 * @Assert\NotBlank()
+	 * @Assert\Length(min="3")
+	 */
 	private $password;
+	/**
+	 * @Assert\NotBlank()
+	 * @Assert\Length(min="3")
+	 */
+	private $passwordAgain;
+
+	/**
+	 * @Assert\IsTrue(message="The repeteated password different!")
+	 */
+	public function isPasswordRepeatedCorrectly()
+	{
+		return $this->getPassword() == $this->getPasswordAgain();
+	}
 
 	/**
 	 * @return mixed
@@ -61,5 +88,21 @@ class RegisterUserCommand
 	public function setPassword($password)
 	{
 		$this->password = $password;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getPasswordAgain()
+	{
+		return $this->passwordAgain;
+	}
+
+	/**
+	 * @param mixed $passwordAgain
+	 */
+	public function setPasswordAgain($passwordAgain)
+	{
+		$this->passwordAgain = $passwordAgain;
 	}
 }

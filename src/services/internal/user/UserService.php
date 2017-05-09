@@ -78,4 +78,8 @@ class UserService
 			$user->resetUnsuccessLoginCounter();
 		});
 	}
+
+	public function getUserDataById($userId) {
+		$this->userRepository->getUserById($userId);
+	}
 }

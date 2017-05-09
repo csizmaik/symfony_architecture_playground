@@ -8,6 +8,7 @@
 namespace services\external\store\doctrine;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query;
 use services\external\store\TransactionService;
 use services\internal\user\User;
 use services\internal\user\UserRepository;
@@ -48,5 +49,14 @@ class UserRepositoryDoctrine extends EntityRepository implements UserRepository
 		{
 			$this->getEntityManager()->remove($user);
 		}
+	}
+
+	public function getAllUser()
+	{
+		return $this->createQueryBuilder('u')
+			->select('u.login','u.name','u.lastSuccessLogin')
+			->where('u.active = 1')
+			->getQuery()
+			->getResult(Query::HYDRATE_ARRAY);
 	}
 }

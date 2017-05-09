@@ -39,4 +39,16 @@ class UserController extends Controller
 
 		return $form;
     }
+
+	/**
+	 * @Rest\Get("/users")
+	 * @Rest\View()
+	 */
+    public function getUsers() {
+		$userQuery = $this->get('user_query');
+		$allUser = $userQuery->getAllUser();
+		return [
+			"users" => $allUser
+		];
+	}
 }

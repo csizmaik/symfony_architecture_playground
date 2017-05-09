@@ -8,6 +8,7 @@
 
 namespace services\internal\user;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use lib\validation\PasswordStrengthValidator;
 use lib\validation\ValidationResultContainer;
 
@@ -22,6 +23,7 @@ class User
 	private $active = true;
 	private $unsuccessLoginCount = 0;
 	private $lastSuccessLogin = null;
+	private $emailContacts;
 
 	/**
 	 * User constructor.
@@ -36,6 +38,7 @@ class User
 		$this->setName($name);
 		$this->setLogin($login);
 		$this->setPassword($password);
+		$this->emailContacts = new ArrayCollection();
 	}
 
 	public function validateCredential($password)
@@ -66,6 +69,15 @@ class User
 		{
 			$this->registerFailedLogin();
 		}
+	}
+
+	public function addEmailContact(EmailContact $emailContact)
+	{
+		$this->emailContacts->add($emailContact);
+	}
+
+	public function getEmailContacts() {
+		return $this->emailContacts->toArray();
 	}
 
 	public function deactivate()

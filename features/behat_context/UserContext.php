@@ -9,10 +9,14 @@
 namespace behat_context;
 
 use Behat\Behat\Context\Context;
+use Behat\Behat\Tester\Exception\PendingException;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\SchemaTool;
 use lib\validation\ValidationFailedException;
+use PHPUnit\Framework\Assert;
 use services\internal\auth\AuthService;
+use services\internal\user\EmailContact;
+use services\internal\user\User;
 use services\internal\user\UserRepository;
 use services\internal\user\UserService;
 
@@ -150,6 +154,48 @@ class UserContext implements Context
 		/** @var \services\internal\user\User $user */
 		$user = $this->userRepository->getUserByLoginName($login);
 		$this->userService->resetUnsuccessLoginCounterByUserId($user->getId());
+	}
+
+	/**
+	 * @Given /^an existing user with "([^"]*)" loginname$/
+	 */
+	public function anExistingUserWithLoginname($loginName)
+	{
+		$user = $this->userRepository->getUserByLoginName($loginName);
+		if (is_null($user)) {
+			$this->userService->registerUser("Csizmarik Norbert",$loginName,"secret1");
+		}
+	}
+
+	/**
+	 * @When /^the user registers a "([^"]*)" email address for "([^"]*)"$/
+	 */
+	public function theUserRegistersAEmailAddressFor($emailAddress, $loginName)
+	{
+		/** @var User $user */
+		$user = $this->userRepository->getUserByLoginName($loginName);
+		$this->userService->addEmailContactToUser($user->getId(), $emailAddress);
+	}
+
+	/**
+	 * @Then /^the user "([^"]*)" has a contact "([^"]*)"$/
+	 */
+	public function theUserHasAContact1($loginName, $emailAddress)
+	{
+		/** @var User $user */
+		$user = $this->userRepository->getUserByLoginName($loginName);
+		Assert::assertContains($emailAddress,$this->getEmailListByContactList($user->getEmailContacts()));
+	}
+
+	private function getEmailListByContactList($contactList)
+	{
+		$emailList = array();
+		/** @var EmailContact $contact */
+		foreach ($contactList as $contact)
+		{
+			$emailList[] = $contact->getEmail();
+		}
+		return $emailList;
 	}
 
 }

@@ -1,0 +1,10 @@
+services\internal\user\EmailContact:
+  type: entity
+  table: email_address
+  id:
+    id:
+      type: integer
+      generator: { strategy: AUTO }
+  fields:
+    email:
+      type: string

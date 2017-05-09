@@ -59,4 +59,9 @@ class UserRepositoryDoctrine extends EntityRepository implements UserRepository
 			->getQuery()
 			->getResult(Query::HYDRATE_ARRAY);
 	}
+
+	public function saveUser(User $user)
+	{
+		$this->getEntityManager()->persist($user);
+	}
 }

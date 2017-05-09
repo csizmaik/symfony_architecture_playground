@@ -2,6 +2,19 @@ services\internal\user\User:
   type: entity
   table: users
   repositoryClass: services\external\store\doctrine\UserRepositoryDoctrine
+  manyToMany:
+    emailContacts:
+      targetEntity: services\internal\user\EmailContact
+      cascade: ["persist"]
+      joinTable:
+        name: user_email_contacts
+        joinColumns:
+          user_id:
+            referencedColumnName: id
+        inverseJoinColumns:
+          phonenumber_id:
+            referencedColumnName: id
+            unique: true
   id:
      id:
        type: integer

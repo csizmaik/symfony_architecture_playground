@@ -10,6 +10,7 @@ namespace services\internal\user;
 
 use services\external\store\TransactionService;
 use services\external\time\TimeService;
+use Webmozart\Assert\Assert;
 
 class UserService
 {
@@ -38,6 +39,16 @@ class UserService
 			$user = new User($userId, $name, $login, $password);
 			$this->userRepository->addUser($user);
 			return $userId;
+		});
+	}
+
+	public function addEmailContactToUser($userId, $emailAddress)
+	{
+		return $this->transactionService->transactional(function() use ($userId, $emailAddress){
+			/** @var User $user */
+			$user = $this->userRepository->getUserById($userId);
+			Assert::allNotNull([$user], "Unkown user id: ".$userId);
+			$user->addEmailContact(new EmailContact($emailAddress));
 		});
 	}
 

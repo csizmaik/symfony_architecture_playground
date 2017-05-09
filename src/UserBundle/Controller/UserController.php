@@ -41,6 +41,20 @@ class UserController extends Controller
     }
 
 	/**
+	 * @Rest\Post("/users/{userId}/email_contact")
+	 * @Rest\View()
+	 */
+	public function addContactToUser(Request $request, $userId)
+	{
+		$emailAddress = $request->request->get('emailAddress');
+		$userService = $this->get('user_service');
+		$userService->addEmailContactToUser($userId,$emailAddress);
+		return [
+			"result" => "success_registration",
+		];
+	}
+
+	/**
 	 * @Rest\Get("/users")
 	 * @Rest\View()
 	 */

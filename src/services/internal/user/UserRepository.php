@@ -16,5 +16,6 @@ interface UserRepository
 	public function isUserExistsWithLogin($login);
 	public function getUserByLoginName($login);
 	public function addUser(User $user);
+	public function saveUser(User $user);
 	public function removeUserByLoginName($loginName);
 }

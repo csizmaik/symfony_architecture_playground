@@ -32,10 +32,11 @@ class UserQueryDoctrine implements UserQuery
 	{
 		$query = $this
 					->entityManager
-					->createQueryBuilder()
-						->from('user_services:User','u')
-						->select('u.id','u.login','u.name','u.active')
-						->getQuery();
+						->createQueryBuilder()
+							->from('user_services:User','user')
+							->leftJoin('user.emailContacts','email_contacts')
+							->select('user','email_contacts')
+							->getQuery();
 		return $query->getResult(Query::HYDRATE_ARRAY);
 	}
 }

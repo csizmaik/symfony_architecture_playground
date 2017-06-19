@@ -14,7 +14,7 @@ class RestExceptionService
 	public function getDataByException(\Exception $exception)
 	{
 		return [
-			"code" => $exception->getCode(),
+			"code" => 500,
 			"success" => "false",
 			"data" => [
 				"message" => $exception->getMessage()

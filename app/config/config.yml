@@ -58,6 +58,9 @@ fos_rest:
     format_listener:
         rules:
            - { path: ^/, priorities: [json, html, xml], fallback_format: ~, prefer_extension: false }
+    exception:
+        enabled: true
+        exception_controller: AppBundle\Controller\ExceptionRestController::indexAction
 
 # Doctrine Configuration
 doctrine:

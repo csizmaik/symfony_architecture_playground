@@ -16,6 +16,7 @@ use lib\validation\ValidationFailedException;
 use PHPUnit\Framework\Assert;
 use services\internal\auth\AuthService;
 use services\internal\user\EmailContact;
+use services\internal\user\RegisterUserCommand;
 use services\internal\user\User;
 use services\internal\user\UserRepository;
 use services\internal\user\UserService;
@@ -78,7 +79,10 @@ class UserContext implements Context
 	public function theUserTriesToRegisterWithLoginnameAndPassword($name, $login, $password)
 	{
 		try {
-			$this->registrationResult = $this->userService->registerUser($name, $login, $password);
+			$this->registrationResult =
+				$this->userService->registerUser(
+					RegisterUserCommand::createWithData($name,$login,$password,$password)
+				);
 		} catch (\Exception $exception) {
 			$this->registrationResult = $exception;
 		}
@@ -106,7 +110,9 @@ class UserContext implements Context
 	{
 		if (!$this->userRepository->isUserExistsWithLogin($login))
 		{
-			$this->userService->registerUser("Existing User",$login,$password);
+			$this->userService->registerUser(
+				RegisterUserCommand::createWithData("Existing User",$login,$password,$password)
+			);
 		}
 	}
 
@@ -163,7 +169,9 @@ class UserContext implements Context
 	{
 		$user = $this->userRepository->getUserByLoginName($loginName);
 		if (is_null($user)) {
-			$this->userService->registerUser("Csizmarik Norbert",$loginName,"secret1");
+			$this->userService->registerUser(
+				RegisterUserCommand::createWithData("Csizmarik Norbert",$loginName,"secret1","secret1")
+			);
 		}
 	}
 

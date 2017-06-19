@@ -3,11 +3,9 @@
 namespace UserBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations as Rest;
+use services\internal\user\RegisterUserCommand;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use UserBundle\Command\RegisterUserCommand;
 use UserBundle\Form\RegisterUserForm;
 
 class UserController extends Controller
@@ -26,11 +24,7 @@ class UserController extends Controller
 			$userService = $this->get('user_service');
 			$userId =
 				$userService
-					->registerUser(
-						$registeredUserCommand->getName(),
-						$registeredUserCommand->getLoginName(),
-						$registeredUserCommand->getPassword()
-					);
+					->registerUser($registeredUserCommand);
 			return [
 				"result" => "success_registration",
 				"user_id" => $userId

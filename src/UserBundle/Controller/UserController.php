@@ -14,24 +14,16 @@ class UserController extends Controller
 	 * @Rest\Post("/users")
 	 * @Rest\View()
 	 */
-    public function registerUser(Request $request)
+    public function registerUser(RegisterUserCommand $command)
     {
-		$registeredUserCommand = new RegisterUserCommand();
-    	$form = $this->createForm(RegisterUserForm::class, $registeredUserCommand);
-    	$form->submit($request->request->all());
-
-    	if ($form->isSubmitted() && $form->isValid()) {
-			$userService = $this->get('user_service');
-			$userId =
-				$userService
-					->registerUser($registeredUserCommand);
-			return [
-				"result" => "success_registration",
-				"user_id" => $userId
-			];
-		}
-
-		return $form;
+		$userService = $this->get('user_service');
+		$userId =
+			$userService
+				->registerUser($command);
+		return [
+			"result" => "success_registration",
+			"user_id" => $userId
+		];
     }
 
 	/**

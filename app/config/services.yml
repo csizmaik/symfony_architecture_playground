@@ -20,6 +20,8 @@ services:
     auth_service:
       class:    services\internal\auth\AuthService
       arguments:  ['@user_service','@transaction_service']
+    rest_exception:
+      class:    services\internal\rest_exception\RestExceptionService
 
     #service_name:
     #    class: AppBundle\Directory\ClassName

@@ -6,7 +6,7 @@
  * Time: 12:28 PM
  */
 
-namespace UserBundle\Command;
+namespace services\internal\user;
 
 
 use Symfony\Component\Validator\Constraints as Assert;

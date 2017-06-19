@@ -31,12 +31,12 @@ class UserService
 		$this->timeService = $timeService;
 	}
 
-	public function registerUser($name, $login, $password)
+	public function registerUser(RegisterUserCommand $command)
 	{
-		return $this->transactionService->transactional(function() use ($name, $login, $password){
-			ReservedLoginChecker::check($this->userRepository->isUserExistsWithLogin($login));
+		return $this->transactionService->transactional(function() use ($command){
+			ReservedLoginChecker::check($this->userRepository->isUserExistsWithLogin($command->getLoginName()));
 			$userId = $this->userRepository->nextId();
-			$user = new User($userId, $name, $login, $password);
+			$user = new User($userId, $command->getName(), $command->getLoginName(), $command->getPassword());
 			$this->userRepository->addUser($user);
 			return $userId;
 		});

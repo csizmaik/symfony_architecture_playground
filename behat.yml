@@ -10,3 +10,5 @@ default:
                     userRepository: '@user_repository'
                     userService: '@user_service'
                     authService: '@auth_service'
+                - behat_context\RestExceptionContext:
+                    restExceptionService: '@rest_exception'

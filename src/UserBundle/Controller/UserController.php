@@ -6,7 +6,6 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 use services\internal\user\RegisterUserCommand;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use UserBundle\Form\RegisterUserForm;
 
 class UserController extends Controller
 {

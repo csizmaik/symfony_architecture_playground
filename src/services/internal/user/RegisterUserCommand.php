@@ -36,6 +36,16 @@ class RegisterUserCommand
 	 */
 	private $passwordAgain;
 
+	public static function createWithData($name, $loginName, $password, $passwordAgain)
+	{
+		$command = new static();
+		$command->setName($name);
+		$command->setLoginName($loginName);
+		$command->setPassword($password);
+		$command->setPasswordAgain($passwordAgain);
+		return $command;
+	}
+
 	/**
 	 * @Assert\IsTrue(message="The repeteated password different!")
 	 */

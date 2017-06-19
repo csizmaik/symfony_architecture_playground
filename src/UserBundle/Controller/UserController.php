@@ -17,9 +17,7 @@ class UserController extends Controller
     public function registerUser(RegisterUserCommand $command)
     {
 		$userService = $this->get('user_service');
-		$userId =
-			$userService
-				->registerUser($command);
+		$userId = $userService->registerUser($command);
 		return [
 			"result" => "success_registration",
 			"user_id" => $userId

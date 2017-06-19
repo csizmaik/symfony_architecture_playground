@@ -10,6 +10,7 @@ namespace services\internal\user;
 
 use services\external\store\TransactionService;
 use services\external\time\TimeService;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Webmozart\Assert\Assert;
 
 class UserService
@@ -23,16 +24,23 @@ class UserService
 	 * @var TimeService
 	 */
 	private $timeService;
+	/**
+	 * @var ValidatorInterface
+	 */
+	private $validator;
 
-	public function __construct(UserRepository $userRepository, TransactionService $transactionService, TimeService $timeService)
+	public function __construct(UserRepository $userRepository, TransactionService $transactionService, TimeService $timeService, ValidatorInterface $validator)
 	{
 		$this->userRepository = $userRepository;
 		$this->transactionService = $transactionService;
 		$this->timeService = $timeService;
+		$this->validator = $validator;
 	}
 
 	public function registerUser(RegisterUserCommand $command)
 	{
+		$constraintViolationList = $this->validator->validate($command);
+		ValidationResultProcessor::processConstraintViolationList($constraintViolationList);
 		return $this->transactionService->transactional(function() use ($command){
 			ReservedLoginChecker::check($this->userRepository->isUserExistsWithLogin($command->getLoginName()));
 			$userId = $this->userRepository->nextId();

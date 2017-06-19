@@ -16,7 +16,7 @@ services:
         - services\internal\user\User
     user_service:
       class:    services\internal\user\UserService
-      arguments: ['@user_repository','@transaction_service','@time_service']
+      arguments: ['@user_repository','@transaction_service','@time_service','@validator']
     auth_service:
       class:    services\internal\auth\AuthService
       arguments:  ['@user_service','@transaction_service']

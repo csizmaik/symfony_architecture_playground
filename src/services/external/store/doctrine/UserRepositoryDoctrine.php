@@ -60,6 +60,15 @@ class UserRepositoryDoctrine extends EntityRepository implements UserRepository
 			->getResult(Query::HYDRATE_ARRAY);
 	}
 
+	public function getAllUserData()
+	{
+		$query = $this->createQueryBuilder('user')
+			->leftJoin('user.emailContacts','email_contacts')
+			->select('user','email_contacts')
+			->getQuery();
+		return $query->getResult(Query::HYDRATE_ARRAY);
+	}
+
 	public function saveUser(User $user)
 	{
 		$this->getEntityManager()->persist($user);

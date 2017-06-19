@@ -18,4 +18,5 @@ interface UserRepository
 	public function addUser(User $user);
 	public function saveUser(User $user);
 	public function removeUserByLoginName($loginName);
+	public function getAllUserData();
 }

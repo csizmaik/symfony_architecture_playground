@@ -93,4 +93,9 @@ class UserService
 	public function getUserDataById($userId) {
 		$this->userRepository->getUserById($userId);
 	}
+
+	public function getAllUserData()
+	{
+		return $this->userRepository->getAllUserData();
+	}
 }

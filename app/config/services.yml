@@ -14,9 +14,6 @@ services:
       factory: ['@doctrine.orm.default_entity_manager', getRepository]
       arguments:
         - services\internal\user\User
-    user_query:
-      class:    services\external\store\doctrine\UserQueryDoctrine
-      arguments: ['@doctrine.orm.entity_manager']
     user_service:
       class:    services\internal\user\UserService
       arguments: ['@user_repository','@transaction_service','@time_service']

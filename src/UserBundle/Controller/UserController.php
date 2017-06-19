@@ -59,8 +59,8 @@ class UserController extends Controller
 	 * @Rest\View()
 	 */
     public function getUsers() {
-		$userQuery = $this->get('user_query');
-		$allUser = $userQuery->getAllUser();
+    	$userService = $this->get('user_service');
+    	$allUser = $userService->getAllUserData();
 		return [
 			"users" => $allUser
 		];

@@ -16,9 +16,7 @@ class RestExceptionService
 		return [
 			"code" => ExceptionToErrorCode::getCodeFor(get_class($exception)),
 			"success" => "false",
-			"data" => [
-				"message" => $exception->getMessage()
-			]
+			"data" => ExceptionToData::getDataFromException($exception)
 		];
 	}
 }

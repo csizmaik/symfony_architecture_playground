@@ -6,7 +6,7 @@
  * Time: 7:51 AM
  */
 
-namespace services\internal\user;
+namespace lib\validation\symfony_validation;
 
 
 use Symfony\Component\Validator\ConstraintViolationListInterface;

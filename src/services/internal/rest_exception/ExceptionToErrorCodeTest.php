@@ -9,7 +9,8 @@
 namespace services\internal\rest_exception;
 
 use PHPUnit\Framework\TestCase;
-use services\internal\user\FailedValidationException;
+use lib\validation\symfony_validation\FailedValidationException;
+
 
 class ExceptionToErrorCodeTest extends TestCase
 {

@@ -8,7 +8,7 @@
 
 namespace services\internal\rest_exception;
 
-use services\internal\user\FailedValidationException;
+use lib\validation\symfony_validation\FailedValidationException;
 use Symfony\Component\Validator\ConstraintViolation;
 
 class ExceptionToData

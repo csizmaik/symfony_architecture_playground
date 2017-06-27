@@ -8,6 +8,7 @@
 
 namespace services\internal\user;
 
+use lib\validation\symfony_validation\ValidationResultProcessor;
 use services\external\store\TransactionService;
 use services\external\time\TimeService;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
